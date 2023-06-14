@@ -1,9 +1,11 @@
 import React from 'react'
 import classes from "./Cart.module.css"
-export const Cart = () => {
-    const cartItems=<ul className={classes['cart-items']}>{[{id:'c1',name:'SUshi',amount:2,price:12.99}].map((item)=><li>{item.name}</li>)}</ul>;
+import Modal from '../UI/Modal';
+const Cart = (props) => {
+    const cartItems=<ul 
+    className={classes['cart-items']}>{[{id:'c1',name:'SUshi',amount:2,price:12.99}].map((item)=><li>{item.name}</li>)}</ul>;
   return (
-    <div>
+    <Modal onClose={props.onClose}>
 
         {cartItems}
         <div className={classes.total}><span>
@@ -15,9 +17,10 @@ export const Cart = () => {
         <div className={classes.action}>
 
 
-            <button className={classes['button-alt']}>close</button>
+            <button className={classes['button-alt']} onClick={props.onClose}>close</button>
             <button className={classes.button}>Order</button>
         </div>
-    </div>
+    </Modal>
   )
 }
+export default Cart;
