@@ -2,6 +2,7 @@ import classes from './AvailableMeals.module.css'
 import { Card } from '../UI/Card';
 import MealItem from './MealItem/MealItem';
 import {useEffect,useState} from 'react';
+
 // const DUMMY_MEALS = [
 //     {
 //       id: 'm1',
@@ -31,9 +32,13 @@ import {useEffect,useState} from 'react';
 
 const AvailableMeals =()=>{
 const [meals,setMeals]=useState([]);
+const [isLoading,setIsLoading]=useState(true);
+const [httpError,setHttpError]=useState();
+
 
 useEffect( ()=>{
   const fetchMeals=async ()=>{
+  
     const response=await fetch('https://somato-ca457-default-rtdb.firebaseio.com/meals.json');
   const responseData=await response.json();
   const loadedMeals=[];
@@ -47,6 +52,7 @@ loadedMeals.push({
 })
   }
   setMeals(loadedMeals);
+  setIsLoading(false);
   
   }
     
@@ -54,7 +60,11 @@ loadedMeals.push({
   fetchMeals();
   }
   ,[])
- 
+ if(isLoading){
+  return (<section className={classes.MealsLoading}>
+    <p>Loading...</p>
+  </section>)
+ }
     const mealsList=meals.map(meal=><MealItem 
       id={meal.id} key={meal.id} name={meal.name} description={meal.description} price={meal.price}></MealItem>);
 return <section className={classes.meals}>
