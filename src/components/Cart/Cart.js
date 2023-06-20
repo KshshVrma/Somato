@@ -19,7 +19,7 @@ const[isCheckout,setIsCheckOut]=useState(false)
 
  }
  const orderHandler=()=>{
-isCheckout(true);
+setIsCheckOut(true);
  }
 
 
