@@ -43,17 +43,17 @@ return ;
         <input type='text' id='name' ref={nameInputRef} />
         {!formInputValidity.name&&<p>Please enter a valid name</p>}
       </div>
-      <div className={classes.control}>
+      <div className={`${classes.control} ${formInputValidity.street?'':classes.invalid}`}>
         <label htmlFor='street'>Street</label>
         <input type='text' id='street' ref={streetInputRef}/>
         {!formInputValidity.street&&<p>Please enter a valid street</p>}
       </div>
-      <div className={classes.control}>
+      <div className={`${classes.control} ${formInputValidity.postalCode?'':classes.invalid}`}>
         <label htmlFor='postal'>Postal Code</label>
         <input type='text' id='postal' ref={postalCodeInputRef} />
         {!formInputValidity.postalCode&&<p>Please enter a valid code 5 chars long</p>}
       </div>
-      <div className={classes.control}>
+      <div className={`${classes.control} ${formInputValidity.city?'':classes.invalid}`}>
         <label htmlFor='city'>City</label>
         <input type='text' id='city'ref={cityInputRef}/>
         {!formInputValidity.city&&<p>Please enter a valid city</p>}
