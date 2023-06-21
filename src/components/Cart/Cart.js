@@ -8,7 +8,9 @@ import Checkout from './Checkout';
 
 
 const Cart = (props) => {
-const[isCheckout,setIsCheckOut]=useState(false)
+const[isCheckout,setIsCheckOut]=useState(false);
+const  [isSubmitting, setIsSubmitting] = useState(false);
+const [didSubmit, setDidSubmit] = useState(false);
  const cartCtx= useContext(CartContext);
 
  const cartItemRemoveHandler=(id)=>{
@@ -28,14 +30,17 @@ setIsCheckOut(true);
  const hasItems=cartCtx.items.length>0
 
 
- const submitOrderHandler=(userData)=>{
-  fetch('https://somato-ca457-default-rtdb.firebaseio.com/orders.json',{
+ const submitOrderHandler=async (userData)=>{
+  setIsSubmitting(true);
+await fetch('https://somato-ca457-default-rtdb.firebaseio.com/orders.json',{
     method:'POST',
     body:JSON.stringify({
       user:userData,
       orderedItems:cartCtx.items
     })
   });
+  setIsSubmitting(false);
+  setDidSubmit(true);
 
  };
     const cartItems=<ul 
@@ -47,10 +52,7 @@ setIsCheckOut(true);
             {hasItems&&<button className={classes.button}
             onClick={orderHandler}>Order</button>}
         </div>
-  return (
-    <Modal onClose={props.onClose}>
-
-        {cartItems}
+        const cartModalContent=(<React.Fragment> {cartItems}
         <div className={classes.total}><span>
          Total Amount
         </span>
@@ -61,8 +63,18 @@ setIsCheckOut(true);
         {isCheckout&&<Checkout onConfirm={submitOrderHandler}onCancel={props.onClose}></Checkout>}
 
         {!isCheckout &&modalActions}
+        </React.Fragment>)
+
+        const isSubmittingModalContent=<p>Sending order data...</p>;
+        const didSubmitModalContent=<p>successfully sent the order</p>
+        
+  return (
+    <Modal onClose={props.onClose}>
+{!isSubmitting &&!didSubmit&& cartModalContent}
+{isSubmitting&&isSubmittingModalContent}
+{didSubmit&&didSubmitModalContent}
      
     </Modal>
   )
-}
+};
 export default Cart;
